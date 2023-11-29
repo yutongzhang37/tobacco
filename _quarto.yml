@@ -6,7 +6,7 @@ execute:
   echo: true
 
 book:
-  title: "Youth Tabacco"
+  title: "Exploratory Data Analysis on Youth Tobacco Use"
   author:
     - Ailu Yu (ay2607)
     - Yutong Zhang (yz4214)

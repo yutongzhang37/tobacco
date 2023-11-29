@@ -1,24 +1,7 @@
 # Introduction
 
-Explain why you chose this topic
+While cigarette smoking stands as the leading cause of preventable disease, disability, and death in the United States, the issue of youth tobacco usage holds critical significance due to its pivotal role in fostering lifelong addiction. Early initiation escalates the risk of persisting tobacco habits into adulthood, particularly as adolescents exhibit heightened susceptibility to the addictive properties of nicotine. Consequently, understanding and addressing youth tobacco usage is vital for improving the immediate well-being of young individuals and also influencing the future prevalence of smoking-related illnesses in the adult population.
 
-https://www.cdc.gov/statesystem/index.html
+This exploratory data report navigates through the extensive data provided by the Centers for Disease Control and Prevention (CDC) Youth Tobacco Survey (YTS) Data, which provides insights into the pervasive issue of youth tobacco consumption. Our investigation centers on three primary inquiries. Firstly, we explore the incidence of tobacco and smokeless tobacco (non-combustible tobacco products such as chewing tobacco and snuff) usage among the youth population. Secondly, we scrutinize the frequency of smoking in youth. Thirdly, we investigate the presence of cessation willingness and past attempts. Through systematic analysis of variables including state, year, gender, and education level, our objective is to identify disparities in patterns of tobacco usage and cessation across these variables. For instance, are certain states witnessing high rates of youth tobacco use? How do gender and education level relate to these patterns? Moreover, a temporal analysis enables us to discern evolving trends in tobacco usage.
 
-Provide context for readers who are not familiar with the topic.
-
-
-
-the questions you are interested in studying. 
-
-1. tocabo/ smokeless exposure (ever) in the youth
-2.Smoking frequency(frequent/current) in the youth
-3. quiting attemps
-
-we can investage across STATES, YEAR, GENDER, EDUCATION, 
-
-
-We can form questions like: 
-which states/area have more severe problem with youth tobacco usage/exposure? 有些地方抽烟文化/policy，还可以分情况smoke，smokeless 
-Did tobacco/smokeless usage in youth got worse/better across year?近年来smokeless更加popular？smoke和smokeless的对比，折线图
-Male more likely to smoke??
-As kids grow up, are they more likely to use tobacco??
+In summary, this report aims to provide a comprehensive exploration of the CDC YTS dataset, intending to unravel trends and patterns in youth tobacco use. By examining various dimensions—geographic location, demographics, and temporal trends—we aspire to contribute valuable insights to the ongoing public health efforts focused on mitigating the impact of youth tobacco consumption.
