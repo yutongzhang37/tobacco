@@ -1,4 +1,24 @@
 # Introduction
 
+Explain why you chose this topic
 
-This is another test...
+https://www.cdc.gov/statesystem/index.html
+
+Provide context for readers who are not familiar with the topic.
+
+
+
+the questions you are interested in studying. 
+
+1. tocabo/ smokeless exposure (ever) in the youth
+2.Smoking frequency(frequent/current) in the youth
+3. quiting attemps
+
+we can investage across STATES, YEAR, GENDER, EDUCATION, 
+
+
+We can form questions like: 
+which states/area have more severe problem with youth tobacco usage/exposure? 有些地方抽烟文化/policy，还可以分情况smoke，smokeless 
+Did tobacco/smokeless usage in youth got worse/better across year?近年来smokeless更加popular？smoke和smokeless的对比，折线图
+Male more likely to smoke??
+As kids grow up, are they more likely to use tobacco??

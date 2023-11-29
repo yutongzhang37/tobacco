@@ -1,5 +1,31 @@
 # Data
 
+
+Identify one or more data sources (see II. D. above) that you propose to draw on for the project. For each, describe how the data are collected and by whom. Describe the format of the data, the frequency of updates, dimensions, and any other relevant information. Explain how you plan to import the data. Carefully document your sources with links to the precise data sources that you used. If that is not possible (for example if your data is not available online, then explain that clearly.)
+
+Note any issues / problems with the data, either known or that you discover. 
+
+#### discuss the sample size situation. and we have quite a few columns with uniform observagtions. Some of the category does not add up to be the same that is for example: some female sample + male sample != OVERALL gender. （nonbinary,对比gender的时候呢不考虑）some states have info across certain years. some does not. 
+
+
+
+(suggested: 1 page)
+
+
+
 ## Description
 
+
+Explain in detail how your data will enable you to answer your research questions from the introduction. 
+
+(suggested: 1 page)
+
+
+
+
 ## Missing value analysis
+
+
+Describe any patterns you discover in missing values. If no values are missing, graphs should still be included showing that.
+
+(suggested: 2 graphs plus commentary)
