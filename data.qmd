@@ -40,6 +40,67 @@ While using smoking status-related dependent variables to explore tobacco usage 
 
 ### Missing Value Analysis
 
-Describe any patterns you discover in missing values. If no values are missing, graphs should still be included showing that.
+```{r}
+# import dataset
+library(readr)
+data <- read_csv("/Users/ailu/Dropbox/Mac/Desktop/Youth_Tobacco_Survey__YTS__Data.csv",show_col_types = FALSE)
+```
 
-(suggested: 2 graphs plus commentary)
+We will remove variables with single unique observations and variables that are repetitive in nature.
+
+```{r,message=FALSE}
+library(tidyverse)
+
+# We now remove variables with single observation 
+data <- Filter(function(x)(n_distinct(x)>1), data)
+
+# use only the independent and dependent variable mentioned above
+data_bf <- subset(data, select = c("YEAR", "LocationAbbr", "TopicDesc", "MeasureDesc", "Response","Data_Value","Sample_Size", "Gender", "Education"))
+
+# Number of missing values in different columns
+colSums(is.na(data_bf)) %>%
+  sort(decreasing = TRUE)
+```
+
+Only three variables contain missing values: Response, Data_Value, and Sample_Size. We now look for missing value patterns.
+
+```{r,message=FALSE}
+library(mi)
+x<- missing_data.frame(as.data.frame(data_bf))
+image(x,greyscale= FALSE)
+```
+
+From above graph, we can clearly see that Response, Data_value, Sample_Size are the only three variables with missing values. Data_Value and Sample_Size seem to have the same missing value pattern. In other words, when Sample_Size is missing, Data_Value is also missing, which is reasonable to observe.
+
+However, since we have a very large dataset, heapmap is the not the best to visualize the missing value patters. We will use plot_missing() function.
+
+```{r,message=FALSE}
+# | fig-width: 30
+# | out-width: 100%
+library(redav)
+
+# shorten variable name
+data_bf <- data_bf %>% 
+  rename(
+    State = LocationAbbr,
+    Topic = TopicDesc, 
+    Measure = MeasureDesc, 
+    Sample = Sample_Size, 
+    Edu = Education,
+    Res = Response,
+    Value = Data_Value
+)
+plot_missing(data_bf, percent = FALSE)
+```
+
+From the upper marginal graph, it is evident that the variable "Response" contains a larger number of missing values. This occurrence is attributed to one of the "TopicDesc" values being set to "Cessation," which aims to capture students' willingness and attempts to quit tobacco usage. Consequently, the "Response" variable, which is utilized to record the frequency of tobacco usage, is left as missing in the dataset.
+
+From the main graph, we can confirm that Data_Value and Sample_Size share the same missing value pattern. In pattern 2, the sole missing value is observed in the "Response" variable, as mentioned earlier, due to its purpose in capturing tobacco cessation.
+
+In pattern 3, all three variables---Response, Data_Value, and Sample_Size---are missing. Further investigation, referencing the code book and dataset, reveals that this situation arises from a very limited number of samples. This is predominantly the case when narrowing down the analysis to either females or males, coupled with the "TopicDesc" value set to "Cessation."
+
+Pattern 4, where only "Data_Value" and "Sample_Size" are missing, does not exhibit such occurrences. Verification can be conducted by the following:
+
+```{r}
+data_bf |> filter(Value == NA & Sample == NA & Res != NA)
+```
