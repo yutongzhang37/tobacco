@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.353">
+<meta name="generator" content="quarto-1.3.433">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -91,7 +91,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
     "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit"
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
   }
 }</script>
 
@@ -110,7 +111,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./data.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Data</span></a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
-      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -124,7 +125,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Exploratory Data Analysis on Youth Tobacco Use</a> 
         <div class="sidebar-tools-main">
-    <a href="https://github.com/yutongzhang37/tobacco" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <a href="https://github.com/yutongzhang37/tobacco" rel="" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
 </div>
     </div>
       </div>
@@ -203,14 +204,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="technical-description" class="level3" data-number="2.0.1">
 <h3 data-number="2.0.1" class="anchored" data-anchor-id="technical-description"><span class="header-section-number">2.0.1</span> Technical description</h3>
-<p>Identify one or more data sources (see II. D. above) that you propose to draw on for the project. For each, describe how the data are collected and by whom. Describe the format of the data, the frequency of updates, dimensions, and any other relevant information. Explain how you plan to import the data. Carefully document your sources with links to the precise data sources that you used. If that is not possible (for example if your data is not available online, then explain that clearly.)</p>
-<p>Note any issues / problems with the data, either known or that you discover.</p>
-<section id="discuss-the-sample-size-situation.-and-we-have-quite-a-few-columns-with-uniform-observagtions.-some-of-the-category-does-not-add-up-to-be-the-same-that-is-for-example-some-female-sample-male-sample-overall-gender.-nonbinary对比gender的时候呢不考虑some-states-have-info-across-certain-years.-some-does-not." class="level4" data-number="2.0.1.1">
-<h4 data-number="2.0.1.1" class="anchored" data-anchor-id="discuss-the-sample-size-situation.-and-we-have-quite-a-few-columns-with-uniform-observagtions.-some-of-the-category-does-not-add-up-to-be-the-same-that-is-for-example-some-female-sample-male-sample-overall-gender.-nonbinary对比gender的时候呢不考虑some-states-have-info-across-certain-years.-some-does-not."><span class="header-section-number">2.0.1.1</span> discuss the sample size situation. and we have quite a few columns with uniform observagtions. Some of the category does not add up to be the same that is for example: some female sample + male sample != OVERALL gender. （nonbinary,对比gender的时候呢不考虑）some states have info across certain years. some does not.</h4>
-<p>我找的Excel表里面其中一个work sheet有讲methodology：我直接paste过来了</p>
-<p>The YTS was developed to provide states with comprehensive data on both middle school and high school students regarding tobacco use, exposure to environmental tobacco smoke, smoking cessation, school curriculum, minors’ ability to purchase or otherwise obtain tobacco products, knowledge and attitudes about tobacco, and familiarity with pro-tobacco and anti-tobacco media messages. The YTS uses a two-stage cluster sample design to produce representative samples of students in middle schools (grades 6–8) and high schools (grades 9–12). The first sampling frame includes separate lists for middle schools and high schools. Schools are selected with probability proportional to their enrollment size. At the second sampling stage, classes are randomly selected from the list of classes obtained from each participating school. All students in the selected classes are eligible to participate in the survey. To have representative data, the sample must be selected on the basis of the parameters outlined above, and a minimum overall response rate of at least 60% must be achieved. The overall response rate is calculated by multiplying the school response rate by the student response rate. CDC has required an overall response rate of at least 60% to weight school-based data since 1991. Respondents who refuse to answer a particular question are excluded from analysis of that question.</p>
-<p>(suggested: 1 page)</p>
-</section>
+<p>The only dataset used for this project is the Youth Tobacco Survey (YTS) Data, provided by the Office on Smoking and Health within the National Center for Chronic Disease Prevention and Health Promotion at the Centers for Disease Control and Prevention (CDC). The dataset can be directly accessed online at https://data.cdc.gov/Survey-Data/Youth-Tobacco-Survey-YTS-Data/4juz-x2tp.</p>
+<p>The YTS Data is derived from the web-based National Youth Tobacco Survey (NYTS), administered annually by CDC. The survey covers various aspects, including tobacco use, exposure to environmental tobacco smoke, smoking cessation, school curriculum, minors’ access to tobacco products, knowledge and attitudes about tobacco, and exposure to pro-tobacco and anti-tobacco media messages. A two-stage cluster sample design was employed to produce representative samples of students in middle schools (grades 6–8) and high schools (grades 9–12). The first stage involves selecting schools with probability proportional to their enrollment size, while the second stage randomly selects classes from the selected schools. All students in the chosen classes are eligible to participate in the survey, and a minimum overall response rate of 60% is required. NYTS has been conducted since 1999, and the YTS Data synthesizes the results from 1999 to 2017.</p>
+<p>YTS dataset is provided in a tabular format in CSV or Excel format and can be directly imported into R. The dataset was published on June 3, 2014, with the latest update on June 7, 2018. The metadata was last updated on August 25, 2023. It contains 10600 observations with 31 variables. We primarily focus on variables representing state, year, gender, education level, smoking status, type of tobacco used, and cessation efforts.</p>
+<p>We also identified some potential issues with the data. First, there are some columns (TopicId, MeasuredId, StratificationID…) generated from the sampling process, which are irrelevant to the tobacco usage and cessation. Thus, these columns will be excluded in the analysis. Secondly, the dataset both gives the sample size of the youth who share the same smoking status under a given condition and the percentage of it among the total population. Considering the substantial variability in sample sizes based on different populations in schools and states, our emphasis will be on percentage values rather than sample size. Thirdly, in the gender column, the responses are female, male, and overall. Sample size of female and male do not exactly add up to the overall sample size, as other gender types are included. However,only binary genders (female and male) will be considered for comparisons, given the small sample sizes for non-binary genders. Additionally, due to missing data for certain states in specific years, temporal analysis may need to be conducted state-wise</p>
 </section>
 <section id="research-plan" class="level3" data-number="2.0.2">
 <h3 data-number="2.0.2" class="anchored" data-anchor-id="research-plan"><span class="header-section-number">2.0.2</span> <strong>Research plan</strong></h3>
@@ -235,7 +232,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import dataset</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"/Users/ailu/Dropbox/Mac/Desktop/Youth_Tobacco_Survey__YTS__Data.csv"</span>,<span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">#data &lt;- read_csv("/Users/ailu/Dropbox/Mac/Desktop/Youth_Tobacco_Survey__YTS__Data.csv",show_col_types = FALSE)</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"C:/Users/iamzy/OneDrive/桌面/Youth_Tobacco_Survey__YTS__Data.csv"</span>,<span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>We will remove variables with single unique observations and variables that are repetitive in nature.</p>
@@ -265,8 +263,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mi)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>x<span class="ot">&lt;-</span> <span class="fu">missing_data.frame</span>(<span class="fu">as.data.frame</span>(data_bf))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mi)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'mi' was built under R version 4.3.2</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>x<span class="ot">&lt;-</span> <span class="fu">missing_data.frame</span>(<span class="fu">as.data.frame</span>(data_bf))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>NOTE: The following pairs of variables appear to have the same missingness pattern.
@@ -276,7 +280,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">image</span>(x,<span class="at">greyscale=</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">image</span>(x,<span class="at">greyscale=</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <p><img src="data_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
@@ -287,22 +291,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># | fig-width: 30</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co"># | out-width: 100%</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(redav)</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co"># shorten variable name</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>data_bf <span class="ot">&lt;-</span> data_bf <span class="sc">%&gt;%</span> </span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">State =</span> LocationAbbr,</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">Topic =</span> TopicDesc, </span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">Measure =</span> MeasureDesc, </span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">Sample =</span> Sample_Size, </span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">Edu =</span> Education,</span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">Res =</span> Response,</span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">Value =</span> Data_Value</span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_missing</span>(data_bf, <span class="at">percent =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># | fig-width: 30</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co"># | out-width: 100%</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(redav)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co"># shorten variable name</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>data_bf <span class="ot">&lt;-</span> data_bf <span class="sc">%&gt;%</span> </span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">State =</span> LocationAbbr,</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">Topic =</span> TopicDesc, </span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">Measure =</span> MeasureDesc, </span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">Sample =</span> Sample_Size, </span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">Edu =</span> Education,</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">Res =</span> Response,</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">Value =</span> Data_Value</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_missing</span>(data_bf, <span class="at">percent =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <p><img src="data_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
@@ -315,7 +319,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>data_bf <span class="sc">|&gt;</span> <span class="fu">filter</span>(Value <span class="sc">==</span> <span class="cn">NA</span> <span class="sc">&amp;</span> Sample <span class="sc">==</span> <span class="cn">NA</span> <span class="sc">&amp;</span> Res <span class="sc">!=</span> <span class="cn">NA</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>data_bf <span class="sc">|&gt;</span> <span class="fu">filter</span>(Value <span class="sc">==</span> <span class="cn">NA</span> <span class="sc">&amp;</span> Sample <span class="sc">==</span> <span class="cn">NA</span> <span class="sc">&amp;</span> Res <span class="sc">!=</span> <span class="cn">NA</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 0 × 9
