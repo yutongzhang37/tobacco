@@ -1,1 +1,141 @@
 # Results
+
+
+
+```{r}
+library(readr)
+library(tidyverse)
+data <- read_csv("https://raw.githubusercontent.com/yutongzhang37/tobacco/main/Data/Youth_Tobacco_Survey__YTS__Data.csv")
+# We now remove variables with single observation
+data <- Filter(function(x)(n_distinct(x)>1), data)
+# use only the independent and dependent variable mentioned above
+data_bf <- subset(data, select = c("YEAR", "LocationDesc", "TopicDesc", "MeasureDesc", "Response","Data_Value","Sample_Size", "Gender", "Education"))
+data_bf <- data_bf %>%
+  rename(
+    State = LocationDesc,
+    Topic = TopicDesc,
+    Measure = MeasureDesc,
+    Sample = Sample_Size,
+    Edu = Education,
+    Res = Response,
+    Value = Data_Value
+  )
+```
+
+```{r}
+# We fixed on the data from 2017 (the latest year in the dataset)
+# to explore whether there is a difference bewteen tobacco exposure, usage frequency and cessation
+# between different state/ education level/ gender.
+
+library(choroplethr)
+library(dplyr)
+library(plotly)
+library(patchwork)
+library(ggplot2)
+# exposure
+data2017 <- subset(data_bf, YEAR == 2017)
+data2017 <- data2017 |>
+  mutate(State = tolower(State)) |>
+  rename(region = State, value = Value)
+
+exposure <- data2017 |>
+  filter(Topic == "Cigarette Use (Youth)" & Res == "Ever") |>
+  select(region, value, Gender, Edu)
+exposure_middle <- exposure |>
+  filter(Gender == "Overall" & Edu == "Middle School") |>
+  select(region, value)
+exposure_high <- exposure |>
+  filter(Gender == "Overall" & Edu == "High School") |>
+  select(region, value)
+suppressWarnings({
+  state_choropleth(exposure_middle, num_colors = 1, title = "2017 Middle School Youth Cigarette Exposure") +
+    annotate("text", x = -104, y = 23, label = "HI", color = "black", size = 3) +
+    annotate("text", x = -116, y = 23, label = "AK", color = "black", size = 3)
+})
+suppressWarnings({
+  state_choropleth(exposure_high, num_colors = 1, title = "2017 High School Youth Cigarette Exposure") +
+    annotate("text", x = -104, y = 23, label = "HI", color = "black", size = 3) +
+    annotate("text", x = -116, y = 23, label = "AK", color = "black", size = 3)
+})
+
+
+# frequent smoker
+frequent <- data2017 |>
+  filter(Topic == "Cigarette Use (Youth)" & Res == "Frequent") |>
+  select(region, value, Gender, Edu)
+frequent_middle <- frequent |>
+  filter(Gender == "Overall" & Edu == "Middle School") |>
+  select(region, value)
+frequent_high <- frequent |>
+  filter(Gender == "Overall" & Edu == "High School") |>
+  select(region, value)
+suppressWarnings({
+  state_choropleth(frequent_middle, num_colors = 1, title = "2017 Middle School Frquent Smoker") +
+    annotate("text", x = -104, y = 23, label = "HI", color = "black", size = 3) +
+    annotate("text", x = -116, y = 23, label = "AK", color = "black", size = 3)
+})
+suppressWarnings({
+  state_choropleth(frequent_high, num_colors = 1, title = "2017 High School Youth Frquent Smoker") +
+    annotate("text", x = -104, y = 23, label = "HI", color = "black", size = 3) +
+    annotate("text", x = -116, y = 23, label = "AK", color = "black", size = 3)
+})
+
+
+# cessation
+willingness <- data2017 |>
+  filter(Topic == "Cessation (Youth)" & Measure == "Percent of Current Smokers Who Want to Quit") |>
+  select(region, value, Gender, Edu)
+willingness_middle <- willingness |>
+  filter(Gender == "Overall" & Edu == "Middle School") |>
+  select(region, value)
+willingness_high <- willingness |>
+  filter(Gender == "Overall" & Edu == "High School") |>
+  select(region, value)
+suppressWarnings({
+  state_choropleth(willingness_middle, num_colors = 1, title = "2017 Middle School Quit Smoking Williness") +
+    annotate("text", x = -104, y = 23, label = "HI", color = "black", size = 3) +
+    annotate("text", x = -116, y = 23, label = "AK", color = "black", size = 3)
+})
+suppressWarnings({
+  state_choropleth(willingness_high, num_colors = 1, title = "2017 High School Quit Smoking Williness") +
+    annotate("text", x = -104, y = 23, label = "HI", color = "black", size = 3) +
+    annotate("text", x = -116, y = 23, label = "AK", color = "black", size = 3)
+})
+```
+
+```{r}
+# exposure
+exposure_g_middle <- exposure |>
+  filter(Gender != "Overall" & Edu == "Middle School")
+exposure_g_high <- exposure |>
+  filter(Gender != "Overall" & Edu == "High School")
+plot1 <- ggplot(exposure_g_middle, aes(x = value, y = fct_reorder2(region, Gender=='Male', value, .desc=FALSE), color = Gender)) +
+  geom_point() +
+  labs(title = "2017 Middle School Youth",
+       x = "Percentage",
+       y = "State") +
+  theme_minimal()
+plot2 <- ggplot(exposure_g_high, aes(x = value, y = fct_reorder2(region, Gender=='Male', value, .desc=FALSE), color = Gender)) +
+  geom_point() +
+  labs(title = "2017 High School Youth",
+       x = "Percentage",
+       y = "State") +
+  theme_minimal()
+plot1 + plot2 +
+  plot_annotation(title = "Cleveland Dot Plots for Cigarette Exposure",
+                  theme = theme(plot.title = element_text(hjust = 0.5)))
+
+# frequent smoker
+frequent_g_middle <- frequent |>
+  filter(Gender != "Overall" & Edu == "Middle School")
+# fixing our target to frequent smokers, there is no data for binary gender in middle school
+frequent_g_high <- exposure |>
+  filter(Gender != "Overall" & Edu == "High School")
+ggplot(frequent_g_high, aes(x = value, y = fct_reorder2(region, Gender=='Male', value, .desc=FALSE), color = Gender)) +
+  geom_point() +
+  labs(title = "2017 High School Frquent Smoker by Gender",
+       x = "Frequent Smoker Percentage",
+       y = "State") +
+  theme_minimal()
+```
+
