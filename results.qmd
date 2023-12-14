@@ -1,8 +1,10 @@
 # Results
 
-### Data Processing 
+In this section, we will begin by introducing the variables used for analysis. Subsequently, we will delve into a discussion on youth tobacco exposure and addiction rates, considering variations over time, across states, and differences in gender and education levels.
 
-Consistently, we will continue to use the following variables:
+### Data Processing
+
+We will continue to use variables mentioned previously.
 
 -   Dependent variable:
 
@@ -36,7 +38,7 @@ library(dplyr)
 library(plotly)
 library(cowplot)
 library(vcd)
-
+library(choroplethrMaps)
 # Import Dataset 
 data <- read_csv("https://raw.githubusercontent.com/yutongzhang37/tobacco/main/Data/Youth_Tobacco_Survey__YTS__Data.csv")
 
@@ -56,45 +58,199 @@ data_bf <- data_bf %>%
     Edu = Education,
     Res = Response,
     Value = Data_Value
-  )
+)
+
+# order ordinal category
+data_bf$Edu <- factor(data_bf$Edu, levels = c("Middle School", "High School"))
 ```
 
-### Tabacco Exposure and Frequent Smoker Variance by State in 2017
+### How did patterns of youth tobacco exposure and addiction evolve from 1999 to 2017 ?
 
-#### Choropleth Map
+To address this question, we will initially examine the overall trends in youth tobacco exposure and addiction from 1999 to 2017. Subsequently, we will explore potential variations in these patterns based on gender and education levels. Our specific focus will be on the percentage of students who had ever smoked (youth tobacco exposure) and the percentage of students who had smoked frequently (youth tobacco addiction).
 
-```{r}
-# We fixed on the data from 2017 (the latest year in the dataset)
-# to explore whether there is a difference bewteen tobacco exposure, usage frequency and cessation
-# between different state/ education level/ gender.
+-    **Overall Trends in Youth Tobacco Exposure and Addiction**
 
+    -   **Tobacco Exposure**
 
-# exposure
-data2017 <- subset(data_bf, YEAR == 2017)
-data2017 <- data2017 |>
-  mutate(State = tolower(State)) |>
-  rename(region = State, value = Value)
+    ```{r}
+    # Filter dataset 
+    data1 <- data_bf %>% filter( Topic == "Cigarette Use (Youth)" & Gender == "Overall" & Res == "Ever")
 
-exposure <- data2017 |>
-  filter(Topic == "Cigarette Use (Youth)" & Res == "Ever") |>
-  select(region, value, Gender, Edu)
-exposure_middle <- exposure |>
-  filter(Gender == "Overall" & Edu == "Middle School") |>
-  select(region, value)
-exposure_high <- exposure |>
-  filter(Gender == "Overall" & Edu == "High School") |>
-  select(region, value)
-suppressWarnings({
-  state_choropleth(exposure_middle, num_colors = 1, title = "2017 Middle School Youth Cigarette Exposure") +
-    annotate("text", x = -104, y = 23, label = "HI", color = "black", size = 3) +
-    annotate("text", x = -116, y = 23, label = "AK", color = "black", size = 3)
-})
-suppressWarnings({
-  state_choropleth(exposure_high, num_colors = 1, title = "2017 High School Youth Cigarette Exposure") +
-    annotate("text", x = -104, y = 23, label = "HI", color = "black", size = 3) +
-    annotate("text", x = -116, y = 23, label = "AK", color = "black", size = 3)
-})
+    # Treat Year as factors 
+    data_y <- data1
+    data_y$YEAR <- factor(data_y$YEAR)
+
+    # Plot Boxplot
+    ggplot(data_y, aes(YEAR, Value)) +
+      geom_boxplot(varwidth = TRUE, fill = '#FFA07A') +
+      ggtitle("Boxplot: Percentage of Youth Tobacco Exposure from 1999 to 2017")+
+      ylab("Percentage")+
+      xlab("Year")
+    ```
+
+    -   **Tobacco Addiction**
+
+    ```{r}
+    # filter data
+    data2 <- data_bf %>% filter( Topic == "Cigarette Use (Youth)" & Gender == "Overall" & Res == "Frequent")
+
+    # Treat Year as factors 
+    data_y2 <- data2
+    data_y2$YEAR <- factor(data_y2$YEAR)
+
+    # Plot Boxplot
+    ggplot(data_y2, aes(YEAR, Value)) +
+      geom_boxplot(varwidth = TRUE, fill = '#FFA07A') +
+      ggtitle("Boxplot: Percentage of Youth Tobacco Addiction from 1999 to 2017")+
+      ylab("Percentage")+
+      xlab("Year")
+    ```
+
+-   **Variation of Trends in Genders**
+
+    -   **Tobacco Exposure**
+
+    ```{r,fig.height = 5, fig.width = 8, message=FALSE}
+    # filter data
+    data_ge <- data_bf %>% filter( Topic == "Cigarette Use (Youth)" & Gender != "Overall" & Res == "Ever")
+
+    ggplot(data_ge, aes(x = jitter(YEAR,1.2), y = Value, color = Gender)) +
+      geom_point()+
+      geom_smooth(method = "loess", span = .4, se = FALSE)+
+      scale_x_continuous(breaks = seq(1999,2017,1))+
+      xlab("Year")+
+      ylab("Percentage")+
+      ggtitle("Gender Difference in Youth Tobacco Exposure From 1999 to 2017")
+    ```
+
+    -   **Tobacco Addiction**
+
+    ```{r,fig.height = 5, fig.width = 8, message=FALSE}
+    data_gf <- data_bf %>% filter( Topic == "Cigarette Use (Youth)" & Gender != "Overall" & Res == "Frequent")
+
+    ggplot(data_gf, aes(x = jitter(YEAR,1.2), y = Value, color = Gender)) +
+      geom_point()+
+      geom_smooth(method = "loess", span = .4, se = FALSE)+
+      scale_x_continuous(breaks = seq(1999,2017,1))+
+      xlab("Year")+
+      ylab("Percentage")+
+      ggtitle("Gender Difference in Youth Tobacco Addiction From 1999 to 2017")
+
+    ```
+
+```{=html}
+<!-- -->
 ```
+-   **Variation of Trends by Education Level**
+
+    -   **Tobacco Exposure**
+
+    ```{r, fig.height = 5, fig.width = 8}
+    data_y1 <- data1
+    data_y1$YEAR <- factor(data_y1$YEAR)
+    ggplot(data_y1, aes(YEAR, Value, color = Edu)) +
+      geom_boxplot(varwidth = TRUE) +
+      #facet_grid(Edu~.)+
+      ggtitle("Boxplot of Percentage of Youth Tobacco Exposure By Education Levels")+
+      ylab("Percentage")+
+      xlab("Year")
+    ```
+
+    -   **Tobacco Addiction**
+
+    ```{r, fig.height = 5, fig.width = 8}
+    data_y2 <- data2
+    data_y2$YEAR <- factor(data_y2$YEAR)
+    ggplot(data_y2, aes(YEAR, Value,color = Edu)) +
+      geom_boxplot(varwidth = TRUE) +
+      #facet_grid(Edu~., scales = 'free_y')+
+      ggtitle("Boxplot of Percentage of Youth Tobacco Addiction By Education")+
+      ylab("Percentage")+
+      xlab("Year")
+    ```
+
+-   **Considering Both Genders and Education Levels**
+
+    To control for gender and education, we group the dataset by education levels and gender, calculating the mean and standard deviation of the observed percentage of youth tobacco exposure and addiction rates.
+
+    -   **Tobacco Exposure**
+
+    ```{r,fig.height = 10, fig.width = 10, message=FALSE}
+    data_avegee <- data_ge %>% group_by(YEAR,Edu, Gender) %>% summarise(ave_p = mean(Value), std = sd(Value))
+
+    ggplot(data_avegee, aes(x = Edu, y = ave_p, fill= Gender))+
+      geom_col(position = "dodge")+
+      geom_errorbar(
+        aes(ymin = ave_p - std, ymax = ave_p + std),
+        position = position_dodge(.9),
+        width = .2
+      )+
+      facet_wrap(vars(YEAR))+
+      xlab("Year")+
+      ylab("Percentage")+
+      ggtitle("Youth Tobacco Exposure By Education Levels and Gender From 1999 to 2017")
+    ```
+
+    -   **Tobacco Addiction**
+
+    ```{r,fig.height = 10, fig.width = 10, message = FALSE}
+    data_avegef <- data_gf %>% group_by(YEAR,Edu, Gender) %>% summarise(ave_p = mean(Value), std = sd(Value))
+    ggplot(data_avegef, aes(x = Edu, y = ave_p, fill= Gender))+
+      geom_col(position = "dodge")+
+      geom_errorbar(
+        aes(ymin = ave_p - std, ymax = ave_p + std),
+        position = position_dodge(.9),
+        width = .2
+      )+
+      facet_wrap(vars(YEAR))+
+      xlab("Year")+
+      ylab("Percentage")+
+      ggtitle("Youth Tobacco Addiction By Education Levels and Gender From 1999 to 2017")
+    ```
+
+### How does youth tobacco exposure and addiction differ by states in 2017?
+
+To address this question, we will initially examine youth tobacco exposure and addiction rates across states, controlling for education levels. Subsequently, we will explore gender and education level differences within each state.
+
+-   **Youth Tobacco Exposure and Addiction Rates Across States By Education**
+
+    We controlled for education levels to create a choropleth map since the dataset contains varied observations across different levels of education.
+
+    -   **Tobacco Exposure**
+
+    ```{r}
+    # We fixed on the data from 2017 (the latest year in the dataset)
+    # to explore whether there is a difference bewteen tobacco exposure, usage frequency and cessation
+    # between different state/ education level/ gender.
+
+    # exposure
+    data2017 <- subset(data_bf, YEAR == 2017)
+    data2017 <- data2017 |>
+      mutate(State = tolower(State)) |>
+      rename(region = State, value = Value)
+
+    exposure <- data2017 |>
+      filter(Topic == "Cigarette Use (Youth)" & Res == "Ever") |>
+      select(region, value, Gender, Edu)
+    exposure_middle <- exposure |>
+      filter(Gender == "Overall" & Edu == "Middle School") |>
+      select(region, value)
+    exposure_high <- exposure |>
+      filter(Gender == "Overall" & Edu == "High School") |>
+      select(region, value)
+    suppressWarnings({
+      state_choropleth(exposure_middle, num_colors = 1, title = "2017 Middle School Youth Tabacco Exposure") +
+        annotate("text", x = -104, y = 23, label = "HI", color = "black", size = 3) +
+        annotate("text", x = -116, y = 23, label = "AK", color = "black", size = 3)
+    })
+    suppressWarnings({
+      state_choropleth(exposure_high, num_colors = 1, title = "2017 High School Youth Tabacco Exposure") +
+        annotate("text", x = -104, y = 23, label = "HI", color = "black", size = 3) +
+        annotate("text", x = -116, y = 23, label = "AK", color = "black", size = 3)
+    })
+    ```
+
+    -   **Tobacco Addiction**
 
 ```{r}
 # frequent smoker
@@ -108,62 +264,45 @@ frequent_high <- frequent |>
   filter(Gender == "Overall" & Edu == "High School") |>
   select(region, value)
 suppressWarnings({
-  state_choropleth(frequent_middle, num_colors = 1, title = "2017 Middle School Frquent Smoker") +
+  state_choropleth(frequent_middle, num_colors = 1, title = "2017 Middle School Youth Tobacco Addiction") +
     annotate("text", x = -104, y = 23, label = "HI", color = "black", size = 3) +
     annotate("text", x = -116, y = 23, label = "AK", color = "black", size = 3)
 })
 suppressWarnings({
-  state_choropleth(frequent_high, num_colors = 1, title = "2017 High School Youth Frquent Smoker") +
+  state_choropleth(frequent_high, num_colors = 1, title = "2017 High School  Youth Tobacco Addiction") +
     annotate("text", x = -104, y = 23, label = "HI", color = "black", size = 3) +
     annotate("text", x = -116, y = 23, label = "AK", color = "black", size = 3)
 })
 ```
 
-```{r}
-# cessation
-willingness <- data2017 |>
-  filter(Topic == "Cessation (Youth)" & Measure == "Percent of Current Smokers Who Want to Quit") |>
-  select(region, value, Gender, Edu)
-willingness_middle <- willingness |>
-  filter(Gender == "Overall" & Edu == "Middle School") |>
-  select(region, value)
-willingness_high <- willingness |>
-  filter(Gender == "Overall" & Edu == "High School") |>
-  select(region, value)
-suppressWarnings({
-  state_choropleth(willingness_middle, num_colors = 1, title = "2017 Middle School Quit Smoking Williness") +
-    annotate("text", x = -104, y = 23, label = "HI", color = "black", size = 3) +
-    annotate("text", x = -116, y = 23, label = "AK", color = "black", size = 3)
-})
-suppressWarnings({
-  state_choropleth(willingness_high, num_colors = 1, title = "2017 High School Quit Smoking Williness") +
-    annotate("text", x = -104, y = 23, label = "HI", color = "black", size = 3) +
-    annotate("text", x = -116, y = 23, label = "AK", color = "black", size = 3)
-})
-```
+![](http://127.0.0.1:41615/chunk_output/BBE92817b4c5df47/3C226074/cjnnpfcyk9rbg/000012.png)
 
-#### Cleveland Dot Plot
+-   **Gender and Education Level Differences within Each State**
 
-```{r}
-# exposure
-exposure_g_middle <- exposure |>
-  filter(Gender != "Overall" & Edu == "Middle School")
-exposure_g_high <- exposure |>
-  filter(Gender != "Overall" & Edu == "High School")
-plot1 <- ggplot(exposure_g_middle, aes(x = value, y = fct_reorder2(region, Gender=='Male', value, .desc=FALSE), color = Gender)) +
-  geom_point() +
-  labs(title = "2017 Middle School Youth",
-       x = "Percentage",
-       y = "State") +
-  theme_minimal()
-plot2 <- ggplot(exposure_g_high, aes(x = value, y = fct_reorder2(region, Gender=='Male', value, .desc=FALSE), color = Gender)) +
-  geom_point() +
-  labs(title = "2017 High School Youth",
-       x = "Percentage",
-       y = "State") +
-  theme_minimal()
-plot_grid(plot1, plot2, ncol = 1, align = "vh")
-```
+    -   **Tobacco Exposure**
+
+    ```{r,fig.height = 6, fig.width = 8}
+    # exposure
+    exposure_g_middle <- exposure |>
+      filter(Gender != "Overall" & Edu == "Middle School")
+    exposure_g_high <- exposure |>
+      filter(Gender != "Overall" & Edu == "High School")
+    plot1 <- ggplot(exposure_g_middle, aes(x = value, y = fct_reorder2(region, Gender=='Male', value, .desc=FALSE), color = Gender)) +
+      geom_point() +
+      labs(title = "2017 Middle School Youth Tobbaco Exposure By Gender and Education",
+           x = "Percentage",
+           y = "State") +
+      theme_minimal()
+    plot2 <- ggplot(exposure_g_high, aes(x = value, y = fct_reorder2(region, Gender=='Male', value, .desc=FALSE), color = Gender)) +
+      geom_point() +
+      labs(title = "2017 High School Youth Tobbaco Exposure By Gender and Education",
+           x = "Percentage",
+           y = "State") +
+      theme_minimal()
+    plot_grid(plot1, plot2, ncol = 1, align = "vh")
+    ```
+
+    -   **Tobacco Addiction**
 
 ```{r}
 # frequent smoker
@@ -174,34 +313,49 @@ frequent_g_high <- exposure |>
   filter(Gender != "Overall" & Edu == "High School")
 ggplot(frequent_g_high, aes(x = value, y = fct_reorder2(region, Gender=='Male', value, .desc=FALSE), color = Gender)) +
   geom_point() +
-  labs(title = "2017 High School Frquent Smoker by Gender",
+  labs(title = "2017 High School Youth Tobbaco Addiction By Gender and Education",
        x = "Frequent Smoker Percentage",
        y = "State") +
   theme_minimal()
 ```
 
-#### Mosaic Plot for Louisiana in 2017
+###  How do gender and educational factors impact Youth Tobacco Exposure and Addiction within a specific state and year?
+
+In this instance, we will focus on examining the data from the state of Louisiana in the year 2017.
+
+-   Tobacco Exposure
 
 ```{r}
-
 # Exposure frequency
 exposure_mosaic <- data2017 |>
   filter(region == "louisiana" & Topic == "Cigarette Use (Youth)" & Res == "Ever" & Gender != "Overall")|>
   mutate(Exposure = ifelse(Res == "Ever", "Had Smoked", Res)) |>
   select(Gender, Edu, Exposure, value, Sample) |>
   mutate(Frequency = round(0.01 * value * Sample))
+
 never_smoked_mosaic <- exposure_mosaic |>
   mutate(Exposure = "Never Smoked",
          Frequency = Sample - Frequency)
+
 exposure_mosaic_full <- bind_rows(exposure_mosaic, never_smoked_mosaic) |>
   select(-value, -Sample) |>
   rename(Education_Level = Edu)
+
 exposure_mosaic_full$Education_Level <- factor(exposure_mosaic_full$Education_Level, levels = c("Middle School", "High School"))
+
 exposure_mosaic_full$Exposure <- factor(exposure_mosaic_full$Exposure, levels = c("Never Smoked", "Had Smoked"))
+
 exposure_mosaic_cases <-tidyr::uncount(base::as.data.frame(exposure_mosaic_full), Frequency)
-vcd::mosaic(Exposure ~ Education_Level + Gender, data = exposure_mosaic_cases, direction = c("v","v","h"),
-            highlighting_fill = c("lightyellow", "lightblue"), gp_labels=(gpar(fontsize=9)))
+
+vcd::mosaic(Exposure ~ Education_Level + Gender, 
+            data = exposure_mosaic_cases, 
+            direction = c("v","v","h"),
+            main="Youth Tobacco Exposure of Louisiana in 2017",
+            highlighting_fill = c("lightyellow", '#FFA07A'), 
+            gp_labels=(gpar(fontsize=9)))
 ```
+
+-   Tobacco Addiction
 
 ```{r}
 # frequent smoker percentage
@@ -210,15 +364,25 @@ frequent_mosaic <- data2017 |>
   mutate(Frequent_Smoker = ifelse(Res == "Frequent", "Yes", Res)) |>
   select(Gender, Edu, Frequent_Smoker, value, Sample) |>
   mutate(Frequency = round(0.01 * value * Sample))
+
 not_frequent_mosaic <- frequent_mosaic |>
   mutate(Frequent_Smoker = "No",
          Frequency = Sample - Frequency)
+
 frequent_mosaic_full <- bind_rows(frequent_mosaic, not_frequent_mosaic) |>
   select(-value, -Sample) |>
   rename(Education_Level = Edu)
+
 frequent_mosaic_full$Education_Level <- factor(frequent_mosaic_full$Education_Level, levels = c("Middle School", "High School"))
+
 frequent_mosaic_full$Frequent_Smoker <- factor(frequent_mosaic_full$Frequent_Smoker, levels = c("No", "Yes"))
+
 frequent_mosaic_cases <-tidyr::uncount(base::as.data.frame(frequent_mosaic_full), Frequency)
-vcd::mosaic(Frequent_Smoker ~ Education_Level + Gender, data = frequent_mosaic_cases, direction = c("v","v","h"),
-            highlighting_fill = c("lightyellow", "lightblue"), gp_labels=(gpar(fontsize=9)))
+
+vcd::mosaic(Frequent_Smoker ~ Education_Level + Gender, 
+            data = frequent_mosaic_cases, 
+            direction = c("v","v","h"),
+            main="Youth Tobacco Addiction of Louisiana in 2017", 
+            highlighting_fill = c("lightyellow", '#FFA07A'), 
+            gp_labels=(gpar(fontsize=9)))
 ```
