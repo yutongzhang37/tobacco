@@ -1,7 +1,7 @@
 # Results
 
 
-
+### Tabacco Exposure and Frequent Smoker Variance by State in 2017
 ```{r}
 library(readr)
 library(tidyverse)
@@ -21,7 +21,7 @@ data_bf <- data_bf %>%
     Value = Data_Value
   )
 ```
-
+#### Choropleth Map
 ```{r}
 # We fixed on the data from 2017 (the latest year in the dataset)
 # to explore whether there is a difference bewteen tobacco exposure, usage frequency and cessation
@@ -30,8 +30,8 @@ data_bf <- data_bf %>%
 library(choroplethr)
 library(dplyr)
 library(plotly)
-library(patchwork)
 library(ggplot2)
+library(cowplot)
 # exposure
 data2017 <- subset(data_bf, YEAR == 2017)
 data2017 <- data2017 |>
@@ -57,8 +57,9 @@ suppressWarnings({
     annotate("text", x = -104, y = 23, label = "HI", color = "black", size = 3) +
     annotate("text", x = -116, y = 23, label = "AK", color = "black", size = 3)
 })
+```
 
-
+```{r}
 # frequent smoker
 frequent <- data2017 |>
   filter(Topic == "Cigarette Use (Youth)" & Res == "Frequent") |>
@@ -79,8 +80,9 @@ suppressWarnings({
     annotate("text", x = -104, y = 23, label = "HI", color = "black", size = 3) +
     annotate("text", x = -116, y = 23, label = "AK", color = "black", size = 3)
 })
+```
 
-
+```{r}
 # cessation
 willingness <- data2017 |>
   filter(Topic == "Cessation (Youth)" & Measure == "Percent of Current Smokers Who Want to Quit") |>
@@ -103,6 +105,7 @@ suppressWarnings({
 })
 ```
 
+#### Cleveland Dot Plot
 ```{r}
 # exposure
 exposure_g_middle <- exposure |>
@@ -121,10 +124,13 @@ plot2 <- ggplot(exposure_g_high, aes(x = value, y = fct_reorder2(region, Gender=
        x = "Percentage",
        y = "State") +
   theme_minimal()
-plot1 + plot2 +
+plot_grid(plot1, plot2, ncol = 1, align = "vh") +
+  plot_layout(guides = "collect") +
   plot_annotation(title = "Cleveland Dot Plots for Cigarette Exposure",
                   theme = theme(plot.title = element_text(hjust = 0.5)))
+```
 
+```{r}
 # frequent smoker
 frequent_g_middle <- frequent |>
   filter(Gender != "Overall" & Edu == "Middle School")
@@ -137,5 +143,47 @@ ggplot(frequent_g_high, aes(x = value, y = fct_reorder2(region, Gender=='Male', 
        x = "Frequent Smoker Percentage",
        y = "State") +
   theme_minimal()
+```
+
+#### Mosaic Plot for Louisiana in 2017
+```{r}
+library(vcd)
+# Exposure frequency
+exposure_mosaic <- data2017 |>
+  filter(region == "louisiana" & Topic == "Cigarette Use (Youth)" & Res == "Ever" & Gender != "Overall")|>
+  mutate(Exposure = ifelse(Res == "Ever", "Had Smoked", Res)) |>
+  select(Gender, Edu, Exposure, value, Sample) |>
+  mutate(Frequency = round(0.01 * value * Sample))
+never_smoked_mosaic <- exposure_mosaic |>
+  mutate(Exposure = "Never Smoked",
+         Frequency = Sample - Frequency)
+exposure_mosaic_full <- bind_rows(exposure_mosaic, never_smoked_mosaic) |>
+  select(-value, -Sample) |>
+  rename(Education_Level = Edu)
+exposure_mosaic_full$Education_Level <- factor(exposure_mosaic_full$Education_Level, levels = c("Middle School", "High School"))
+exposure_mosaic_full$Exposure <- factor(exposure_mosaic_full$Exposure, levels = c("Never Smoked", "Had Smoked"))
+exposure_mosaic_cases <-tidyr::uncount(base::as.data.frame(exposure_mosaic_full), Frequency)
+vcd::mosaic(Exposure ~ Education_Level + Gender, data = exposure_mosaic_cases, direction = c("v","v","h"),
+            highlighting_fill = c("lightyellow", "lightblue"), gp_labels=(gpar(fontsize=9)))
+```
+
+```{r}
+# frequent smoker percentage
+frequent_mosaic <- data2017 |>
+  filter(region == "louisiana" & Topic == "Cigarette Use (Youth)" & Res == "Frequent" & Gender != "Overall")|>
+  mutate(Frequent_Smoker = ifelse(Res == "Frequent", "Yes", Res)) |>
+  select(Gender, Edu, Frequent_Smoker, value, Sample) |>
+  mutate(Frequency = round(0.01 * value * Sample))
+not_frequent_mosaic <- frequent_mosaic |>
+  mutate(Frequent_Smoker = "No",
+         Frequency = Sample - Frequency)
+frequent_mosaic_full <- bind_rows(frequent_mosaic, not_frequent_mosaic) |>
+  select(-value, -Sample) |>
+  rename(Education_Level = Edu)
+frequent_mosaic_full$Education_Level <- factor(frequent_mosaic_full$Education_Level, levels = c("Middle School", "High School"))
+frequent_mosaic_full$Frequent_Smoker <- factor(frequent_mosaic_full$Frequent_Smoker, levels = c("No", "Yes"))
+frequent_mosaic_cases <-tidyr::uncount(base::as.data.frame(frequent_mosaic_full), Frequency)
+vcd::mosaic(Frequent_Smoker ~ Education_Level + Gender, data = frequent_mosaic_cases, direction = c("v","v","h"),
+            highlighting_fill = c("lightyellow", "lightblue"), gp_labels=(gpar(fontsize=9)))
 ```
 
