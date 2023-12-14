@@ -68,7 +68,7 @@ data_bf$Edu <- factor(data_bf$Edu, levels = c("Middle School", "High School"))
 
 To address this question, we will initially examine the overall trends in youth tobacco exposure and addiction from 1999 to 2017. Subsequently, we will explore potential variations in these patterns based on gender and education levels. Our specific focus will be on the percentage of students who had ever smoked (youth tobacco exposure) and the percentage of students who had smoked frequently (youth tobacco addiction).
 
--    **Overall Trends in Youth Tobacco Exposure and Addiction**
+-   **Overall Trends in Youth Tobacco Exposure and Addiction**
 
     -   **Tobacco Exposure**
 
@@ -90,21 +90,21 @@ To address this question, we will initially examine the overall trends in youth 
 
     -   **Tobacco Addiction**
 
-    ```{r}
-    # filter data
-    data2 <- data_bf %>% filter( Topic == "Cigarette Use (Youth)" & Gender == "Overall" & Res == "Frequent")
+```{r}
+# filter data
+data2 <- data_bf %>% filter( Topic == "Cigarette Use (Youth)" & Gender == "Overall" & Res == "Frequent")
 
-    # Treat Year as factors 
-    data_y2 <- data2
-    data_y2$YEAR <- factor(data_y2$YEAR)
+# Treat Year as factors 
+data_y2 <- data2
+data_y2$YEAR <- factor(data_y2$YEAR)
 
-    # Plot Boxplot
-    ggplot(data_y2, aes(YEAR, Value)) +
-      geom_boxplot(varwidth = TRUE, fill = '#FFA07A') +
-      ggtitle("Boxplot: Percentage of Youth Tobacco Addiction from 1999 to 2017")+
-      ylab("Percentage")+
-      xlab("Year")
-    ```
+# Plot Boxplot
+ggplot(data_y2, aes(YEAR, Value)) +
+  geom_boxplot(varwidth = TRUE, fill = '#FFA07A') +
+  ggtitle("Boxplot: Percentage of Youth Tobacco Addiction from 1999 to 2017")+
+  ylab("Percentage")+
+  xlab("Year")
+```
 
 -   **Variation of Trends in Genders**
 
@@ -138,9 +138,8 @@ To address this question, we will initially examine the overall trends in youth 
 
     ```
 
-```{=html}
 <!-- -->
-```
+
 -   **Variation of Trends by Education Level**
 
     -   **Tobacco Exposure**
@@ -319,7 +318,7 @@ ggplot(frequent_g_high, aes(x = value, y = fct_reorder2(region, Gender=='Male', 
   theme_minimal()
 ```
 
-###  How do gender and educational factors impact Youth Tobacco Exposure and Addiction within a specific state and year?
+### How do gender and educational factors impact Youth Tobacco Exposure and Addiction within a specific state and year?
 
 In this instance, we will focus on examining the data from the state of Louisiana in the year 2017.
 
