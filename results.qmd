@@ -1,6 +1,6 @@
 # Results
 
-In this section, we will first briefly introduce variables used for analysis and then discuss ...**... TBA**
+In this section, we will begin by introducing the variables used for analysis. Subsequently, we will delve into a discussion on youth tobacco exposure and addiction rates, considering variations over time, across states, and differences in gender and education levels.
 
 ### Data Processing
 
