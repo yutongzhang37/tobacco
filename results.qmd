@@ -1,8 +1,10 @@
 # Results
 
+In this section, we will first briefly introduce variables used for analysis and then discuss ...**... TBA**
+
 ### Data Processing
 
-Consistently, we will continue to use the following variables:
+We will continue to use variables mentioned previously.
 
 -   Dependent variable:
 
