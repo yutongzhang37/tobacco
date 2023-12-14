@@ -274,8 +274,6 @@ suppressWarnings({
 })
 ```
 
-![](http://127.0.0.1:41615/chunk_output/BBE92817b4c5df47/3C226074/cjnnpfcyk9rbg/000012.png)
-
 -   **Gender and Education Level Differences within Each State**
 
     -   **Tobacco Exposure**
