@@ -1,6 +1,6 @@
 # Results
 
-### Data Processing 
+### Data Processing
 
 Consistently, we will continue to use the following variables:
 
@@ -36,7 +36,7 @@ library(dplyr)
 library(plotly)
 library(cowplot)
 library(vcd)
-
+library(choroplethrMaps)
 # Import Dataset 
 data <- read_csv("https://raw.githubusercontent.com/yutongzhang37/tobacco/main/Data/Youth_Tobacco_Survey__YTS__Data.csv")
 
@@ -67,7 +67,6 @@ data_bf <- data_bf %>%
 # We fixed on the data from 2017 (the latest year in the dataset)
 # to explore whether there is a difference bewteen tobacco exposure, usage frequency and cessation
 # between different state/ education level/ gender.
-
 
 # exposure
 data2017 <- subset(data_bf, YEAR == 2017)
@@ -162,10 +161,7 @@ plot2 <- ggplot(exposure_g_high, aes(x = value, y = fct_reorder2(region, Gender=
        x = "Percentage",
        y = "State") +
   theme_minimal()
-plot_grid(plot1, plot2, ncol = 1, align = "vh") +
-  plot_layout(guides = "collect") +
-  plot_annotation(title = "Cleveland Dot Plots for Cigarette Exposure",
-                  theme = theme(plot.title = element_text(hjust = 0.5)))
+plot_grid(plot1, plot2, ncol = 1, align = "vh")
 ```
 
 ```{r}
