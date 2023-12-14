@@ -32,13 +32,16 @@ While using smoking status-related dependent variables to explore tobacco exposu
 
 ### Missing Value Analysis
 
+
 ```{r}
 # import dataset
 library(readr)
 data <- read_csv("https://raw.githubusercontent.com/yutongzhang37/tobacco/main/Data/Youth_Tobacco_Survey__YTS__Data.csv")
 ```
 
+
 We will remove variables with single unique observations and variables that are repetitive in nature.
+
 
 ```{r,message=FALSE}
 library(tidyverse)
@@ -54,7 +57,9 @@ colSums(is.na(data_bf)) %>%
   sort(decreasing = TRUE)
 ```
 
+
 Only three variables contain missing values: Response, Data_Value, and Sample_Size. We now look for missing value patterns.
+
 
 ```{r,message=FALSE}
 library(mi)
@@ -62,9 +67,11 @@ x<- missing_data.frame(as.data.frame(data_bf))
 image(x,greyscale= FALSE)
 ```
 
+
 From above graph, we can clearly see that Response, Data_value, Sample_Size are the only three variables with missing values. Data_Value and Sample_Size seem to have the same missing value pattern. In other words, when Sample_Size is missing, Data_Value is also missing, which is reasonable to observe.
 
 However, since we have a very large dataset, heapmap is the not the best to visualize the missing value patters. We will use plot_missing() function.
+
 
 ```{r,message=FALSE}
 # | fig-width: 30
@@ -85,6 +92,7 @@ data_bf <- data_bf %>%
 plot_missing(data_bf, percent = FALSE)
 ```
 
+
 From the upper marginal graph, it is evident that the variable "Response" contains a larger number of missing values. This occurrence is attributed to one of the "TopicDesc" values being set to "Cessation," which aims to capture students' willingness and attempts to quit tobacco usage. Consequently, the "Response" variable, which is utilized to record the frequency of tobacco usage, is left as missing in the dataset.
 
 From the main graph, we can confirm that Data_Value and Sample_Size share the same missing value pattern. In pattern 2, the sole missing value is observed in the "Response" variable, as mentioned earlier, due to its purpose in capturing tobacco cessation.
@@ -93,6 +101,8 @@ In pattern 3, all three variables---Response, Data_Value, and Sample_Size---are 
 
 Pattern 4, where only "Data_Value" and "Sample_Size" are missing, does not exhibit such occurrences. Verification can be conducted by the following:
 
+
 ```{r}
 data_bf |> filter(Value == NA & Sample == NA & Res != NA)
 ```
+
