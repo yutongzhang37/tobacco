@@ -14,7 +14,7 @@ We also identified some potential issues with the data. First, there are some co
 
 In this section, we will first provide a brief introduction to our dependent and independent variables. We will then discuss the target values of interest that our data enables us to explore, followed by an examination of patterns that can be explored using demographic independent variables.
 
-Our primary dependent variable is "Data_Value," representing the percentage of students who share the same smoking status among the entire student population with similar features. In other words, holding other features constant in an observation (Year, Location, education, and gender), "Data_Value" provides the percentage of students with the given smoking status, including type of tobacco, user status, and frequency response.
+Our primary dependent variable is "Data_Value", representing the percentage of students who share the same smoking status among the entire student population with similar features. In other words, holding other features constant in an observation (Year, Location, education, and gender), "Data_Value" provides the percentage of students with the given smoking status, including type of tobacco, user status, and frequency response.
 
 Regarding independent variables, we have general demographic variables such as gender, education, states, and year of the survey. Additionally, we have variables related to smoking status, including the type of tobacco (smokeless cigarettes or not), user status (attempted/thought about quitting or not), and frequency response (how frequently one smokes).
 

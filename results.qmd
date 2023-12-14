@@ -1,15 +1,52 @@
 # Results
 
+### Data Processing 
 
-### Tabacco Exposure and Frequent Smoker Variance by State in 2017
-```{r}
+Consistently, we will continue to use the following variables:
+
+-   Dependent variable:
+
+    -   Value : the percentage of students who share the same smoking status among the entire student population with similar features
+
+-   Independent variable:
+
+    -   YEAR: Year of the observation
+
+    -   State: Location of the observation
+
+    -   Topic: Type of tobacco consumption(Cigarette/ Smokeless Tobacco/ Cessation)
+
+    -   Measure: Smoking Status (Smoking/ Quit Attemp)
+
+    -   Res: Frequency of tobacco usage (Ever/ Current/ Frequent)
+
+    -   Sample: sample size
+
+    -   Edu: Education background of the observation (Middle School/ High School)
+
+    -   Gender: Female/ Male/ Overall
+
+```{r, message=FALSE}
+# Impart Packages 
 library(readr)
 library(tidyverse)
+library(ggplot2)
+library(choroplethr)
+library(dplyr)
+library(plotly)
+library(cowplot)
+library(vcd)
+
+# Import Dataset 
 data <- read_csv("https://raw.githubusercontent.com/yutongzhang37/tobacco/main/Data/Youth_Tobacco_Survey__YTS__Data.csv")
+
 # We now remove variables with single observation
 data <- Filter(function(x)(n_distinct(x)>1), data)
-# use only the independent and dependent variable mentioned above
+
+# use only the independent and dependent variable mentioned previously
 data_bf <- subset(data, select = c("YEAR", "LocationDesc", "TopicDesc", "MeasureDesc", "Response","Data_Value","Sample_Size", "Gender", "Education"))
+
+# Rename variables
 data_bf <- data_bf %>%
   rename(
     State = LocationDesc,
@@ -21,17 +58,17 @@ data_bf <- data_bf %>%
     Value = Data_Value
   )
 ```
+
+### Tabacco Exposure and Frequent Smoker Variance by State in 2017
+
 #### Choropleth Map
+
 ```{r}
 # We fixed on the data from 2017 (the latest year in the dataset)
 # to explore whether there is a difference bewteen tobacco exposure, usage frequency and cessation
 # between different state/ education level/ gender.
 
-library(choroplethr)
-library(dplyr)
-library(plotly)
-library(ggplot2)
-library(cowplot)
+
 # exposure
 data2017 <- subset(data_bf, YEAR == 2017)
 data2017 <- data2017 |>
@@ -106,6 +143,7 @@ suppressWarnings({
 ```
 
 #### Cleveland Dot Plot
+
 ```{r}
 # exposure
 exposure_g_middle <- exposure |>
@@ -146,8 +184,9 @@ ggplot(frequent_g_high, aes(x = value, y = fct_reorder2(region, Gender=='Male', 
 ```
 
 #### Mosaic Plot for Louisiana in 2017
+
 ```{r}
-library(vcd)
+
 # Exposure frequency
 exposure_mosaic <- data2017 |>
   filter(region == "louisiana" & Topic == "Cigarette Use (Youth)" & Res == "Ever" & Gender != "Overall")|>
@@ -186,4 +225,3 @@ frequent_mosaic_cases <-tidyr::uncount(base::as.data.frame(frequent_mosaic_full)
 vcd::mosaic(Frequent_Smoker ~ Education_Level + Gender, data = frequent_mosaic_cases, direction = c("v","v","h"),
             highlighting_fill = c("lightyellow", "lightblue"), gp_labels=(gpar(fontsize=9)))
 ```
-
