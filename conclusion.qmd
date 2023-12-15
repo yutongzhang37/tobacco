@@ -1,1 +1,6 @@
 # Conclusion
+
+
+Focused on the latest year data of 2017, we found that geographical disparities were evident, with Louisiana consistently standing out for its elevated rates of both tobacco exposure and addiction. Controlling for education levels revealed the evident pattern of increasing frequency in tobacco exposure and addiction, as youths transition from middle to high school, indicating a critical period for intervention. Gender differences persisted across states, with males consistently exhibiting higher rates of tobacco-related issues. In Louisiana, where the prevalence of tobacco usage is most pronounced, the observed pattern remains consistent.
+
+However, our study faced limitations due to data availability among different states and the lack of data dimensionality. Future research should include more observation across different years and states, as well as more factors that could be influential to tobacco consumption.
