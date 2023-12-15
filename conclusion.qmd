@@ -1,7 +1,1 @@
 # Conclusion
-
-### Research Summary
-
-Youth tobacco exposure and addiction rates both exhibited a significant decrease from 1999 to 2017. Throughout this period, we consistently observed a persistent gap between male and female youth tobacco exposure and addiction rates. Furthermore, high school students consistently maintained markedly higher tobacco exposure and addiction rates than their middle school counterparts over the past two decades, even as high school rates experienced a notable decline.
-
-Upon controlling for both gender and education level, it becomes evident that education level exerts a stronger impact on youth tobacco exposure and addiction rates.

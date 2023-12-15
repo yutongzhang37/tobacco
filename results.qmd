@@ -1,3 +1,8 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
 # Results
 
 In this section, we will begin by introducing the variables used for analysis. Subsequently, we will delve into a discussion on youth tobacco exposure and addiction rates, considering variations over time, across states, and differences in gender and education levels.
@@ -236,25 +241,20 @@ ggplot(data_y2, aes(YEAR, Value)) +
 
 ### How does youth tobacco exposure and addiction differ by states in 2017?
 
-To address this question, we will initially examine youth tobacco exposure and addiction rates across states, controlling for education levels. Subsequently, we will explore gender and education level differences within each state.
+To address this question, we will initially examine youth tobacco exposure and addiction rates across states, controlling for education levels. Subsequently, we will explore gender and education level differences within each state. Only a subset of states has data in 2017 is included in this analysis.
 
 -   **Youth Tobacco Exposure and Addiction Rates Across States By Education**
 
-    We controlled for education levels to create a choropleth map since the dataset contains varied observations across different levels of education.
+    We controlled for education levels to create a choropleth maps since the dataset contains varied observations across different levels of education. States lacking the relevant data are represented by the color black on the choropleth map.
 
     -   **Tobacco Exposure**
 
     ```{r}
-    # We fixed on the data from 2017 (the latest year in the dataset)
-    # to explore whether there is a difference bewteen tobacco exposure, usage frequency and cessation
-    # between different state/ education level/ gender.
-
-    # exposure
+    # filter data
     data2017 <- subset(data_bf, YEAR == 2017)
     data2017 <- data2017 |>
       mutate(State = tolower(State)) |>
       rename(region = State, value = Value)
-
     exposure <- data2017 |>
       filter(Topic == "Cigarette Use (Youth)" & Res == "Ever") |>
       select(region, value, Gender, Edu)
@@ -264,6 +264,7 @@ To address this question, we will initially examine youth tobacco exposure and a
     exposure_high <- exposure |>
       filter(Gender == "Overall" & Edu == "High School") |>
       select(region, value)
+    # choropleth map
     suppressWarnings({
       state_choropleth(exposure_middle, num_colors = 1, title = "2017 Middle School Youth Tabacco Exposure") +
         annotate("text", x = -104, y = 23, label = "HI", color = "black", size = 3) +
@@ -275,102 +276,114 @@ To address this question, we will initially examine youth tobacco exposure and a
         annotate("text", x = -116, y = 23, label = "AK", color = "black", size = 3)
     })
     ```
+The deeper shade of blue indicates that this state has a higher percentage of youth tobacco exposure. 	
+West Virginia, Louisiana, and South Carolina exhibit a higher percentage of middle school youth who have previously engaged in smoking, with an approximate rate of 16%.  This trend persists among high school youth, albeit with a notable increase to 35%. Ohio reports the lowest rate of 8% for tobacco exposure in middle school youth, while Connecticut has a comparatively lower percentage of 15% for tobacco exposure in high school youth. Notably, the proximity of the highest percentage of middle school youth ever engaged in smoking to the lowest percentage among high school youth suggests a substantial number of youths experimenting with smoking upon entering high school.
 
     -   **Tobacco Addiction**
 
-```{r}
-# frequent smoker
-frequent <- data2017 |>
-  filter(Topic == "Cigarette Use (Youth)" & Res == "Frequent") |>
-  select(region, value, Gender, Edu)
-frequent_middle <- frequent |>
-  filter(Gender == "Overall" & Edu == "Middle School") |>
-  select(region, value)
-frequent_high <- frequent |>
-  filter(Gender == "Overall" & Edu == "High School") |>
-  select(region, value)
-suppressWarnings({
-  state_choropleth(frequent_middle, num_colors = 1, title = "2017 Middle School Youth Tobacco Addiction") +
-    annotate("text", x = -104, y = 23, label = "HI", color = "black", size = 3) +
-    annotate("text", x = -116, y = 23, label = "AK", color = "black", size = 3)
-})
-suppressWarnings({
-  state_choropleth(frequent_high, num_colors = 1, title = "2017 High School  Youth Tobacco Addiction") +
-    annotate("text", x = -104, y = 23, label = "HI", color = "black", size = 3) +
-    annotate("text", x = -116, y = 23, label = "AK", color = "black", size = 3)
-})
-```
+    ```{r}
+    # filter data
+    frequent <- data2017 |>
+      filter(Topic == "Cigarette Use (Youth)" & Res == "Frequent") |>
+      select(region, value, Gender, Edu)
+    frequent_middle <- frequent |>
+      filter(Gender == "Overall" & Edu == "Middle School") |>
+      select(region, value)
+    frequent_high <- frequent |>
+      filter(Gender == "Overall" & Edu == "High School") |>
+      select(region, value)
+    # choropleth map
+    suppressWarnings({
+      state_choropleth(frequent_middle, num_colors = 1, title = "2017 Middle School Youth Tobacco Addiction") +
+        annotate("text", x = -104, y = 23, label = "HI", color = "black", size = 3) +
+        annotate("text", x = -116, y = 23, label = "AK", color = "black", size = 3)
+    })
+    suppressWarnings({
+      state_choropleth(frequent_high, num_colors = 1, title = "2017 High School  Youth Tobacco Addiction") +
+        annotate("text", x = -104, y = 23, label = "HI", color = "black", size = 3) +
+        annotate("text", x = -116, y = 23, label = "AK", color = "black", size = 3)
+    })
+    ```
+The observed pattern of tobacco addiction closely aligns with the corresponding pattern of tobacco exposure. Louisiana conspicuously exhibits the highest prevalence of youth who engage in frequent smoking, recording rates of 1% in middle school and 4% in high school. In contrast, Ohio and Connecticut demonstrate lower proportions of youth addicted to tobacco in middle school and high school, respectively. The prevalence of youth tobacco addiction is markedly higher in high school compared to middle school.
 
 -   **Gender and Education Level Differences within Each State**
 
     -   **Tobacco Exposure**
 
     ```{r,fig.height = 6, fig.width = 8}
-    # exposure
+    # filter data
     exposure_g_middle <- exposure |>
       filter(Gender != "Overall" & Edu == "Middle School")
     exposure_g_high <- exposure |>
       filter(Gender != "Overall" & Edu == "High School")
+    # Cleveland dot plots
     plot1 <- ggplot(exposure_g_middle, aes(x = value, y = fct_reorder2(region, Gender=='Male', value, .desc=FALSE), color = Gender)) +
       geom_point() +
-      labs(title = "2017 Middle School Youth Tobbaco Exposure By Gender and Education",
+      labs(title = "2017 Middle School Youth Tobacco Exposure By Gender and Education",
            x = "Percentage",
            y = "State") +
       theme_minimal()
     plot2 <- ggplot(exposure_g_high, aes(x = value, y = fct_reorder2(region, Gender=='Male', value, .desc=FALSE), color = Gender)) +
       geom_point() +
-      labs(title = "2017 High School Youth Tobbaco Exposure By Gender and Education",
+      labs(title = "2017 High School Youth Tobacco Exposure By Gender and Education",
            x = "Percentage",
            y = "State") +
       theme_minimal()
+    # combined two plots
     plot_grid(plot1, plot2, ncol = 1, align = "vh")
     ```
+In the Cleveland dot plot, states are organized in descending order based on the percentage of tobacco exposure among male youth. Consistent with previous findings, Louisiana, West Virginia, and South Carolina demonstrate higher rates of tobacco exposure across both educational levels and genders. Furthermore, across the majority of states, males exhibit a higher prevalence of tobacco exposure than females within both educational levels.
 
     -   **Tobacco Addiction**
 
-```{r}
-# frequent smoker
-frequent_g_middle <- frequent |>
-  filter(Gender != "Overall" & Edu == "Middle School")
-# fixing our target to frequent smokers, there is no data for binary gender in middle school
-frequent_g_high <- exposure |>
-  filter(Gender != "Overall" & Edu == "High School")
-ggplot(frequent_g_high, aes(x = value, y = fct_reorder2(region, Gender=='Male', value, .desc=FALSE), color = Gender)) +
-  geom_point() +
-  labs(title = "2017 High School Youth Tobbaco Addiction By Gender and Education",
-       x = "Frequent Smoker Percentage",
-       y = "State") +
-  theme_minimal()
-```
+    ```{r}
+    # filter data
+    frequent_g_middle <- frequent |>
+      filter(Gender != "Overall" & Edu == "Middle School")
+    frequent_g_high <- frequent |>
+      filter(Gender != "Overall" & Edu == "High School")
+    # cleveland dot plots
+    plot3 <- ggplot(frequent_g_middle, aes(x = value, y = fct_reorder2(region, Gender=='Male', value, .desc=FALSE), color = Gender)) +
+      geom_point() +
+      labs(title = "2017 Middle School Youth Tobacco Addiction By Gender and Education",
+           x = "Frequent Smoker Percentage",
+           y = "State") +
+      theme_minimal()
+    plot4 <- ggplot(frequent_g_high, aes(x = value, y = fct_reorder2(region, Gender=='Male', value, .desc=FALSE), color = Gender)) +
+      geom_point() +
+      labs(title = "2017 High School Youth Tobacco Addiction By Gender and Education",
+           x = "Frequent Smoker Percentage",
+           y = "State") +
+      theme_minimal()
+    # combined two plots
+    plot_grid(plot3, plot4, ncol = 1, align = "vh")
+    ```
+The plot revealed similar pattern with previous choropleth map, where the percentage of high school youth addicted to tobacco is higher. In most states, males have a higher prevalence of tobacco addiction than females within both educational levels. Male in both education levels in Louisiana have the highest rate of tobacco addiction.
 
 ### How do gender and educational factors impact Youth Tobacco Exposure and Addiction within a specific state and year?
 
-In this instance, we will focus on examining the data from the state of Louisiana in the year 2017.
+In this instance, we will focus on examining the data from the state of Louisiana in the year 2017, since Louisiana has the most frequent tobacco usage according to previous findings.
 
 -   Tobacco Exposure
 
 ```{r}
-# Exposure frequency
+# data pre-processing
 exposure_mosaic <- data2017 |>
   filter(region == "louisiana" & Topic == "Cigarette Use (Youth)" & Res == "Ever" & Gender != "Overall")|>
   mutate(Exposure = ifelse(Res == "Ever", "Had Smoked", Res)) |>
   select(Gender, Edu, Exposure, value, Sample) |>
   mutate(Frequency = round(0.01 * value * Sample))
-
 never_smoked_mosaic <- exposure_mosaic |>
   mutate(Exposure = "Never Smoked",
          Frequency = Sample - Frequency)
-
 exposure_mosaic_full <- bind_rows(exposure_mosaic, never_smoked_mosaic) |>
   select(-value, -Sample) |>
   rename(Education_Level = Edu)
-
+# redefined variable order
 exposure_mosaic_full$Education_Level <- factor(exposure_mosaic_full$Education_Level, levels = c("Middle School", "High School"))
-
 exposure_mosaic_full$Exposure <- factor(exposure_mosaic_full$Exposure, levels = c("Never Smoked", "Had Smoked"))
-
 exposure_mosaic_cases <-tidyr::uncount(base::as.data.frame(exposure_mosaic_full), Frequency)
-
+# mosaic plot
 vcd::mosaic(Exposure ~ Education_Level + Gender, 
             data = exposure_mosaic_cases, 
             direction = c("v","v","h"),
@@ -378,31 +391,28 @@ vcd::mosaic(Exposure ~ Education_Level + Gender,
             highlighting_fill = c("lightyellow", '#FFA07A'), 
             gp_labels=(gpar(fontsize=9)))
 ```
+The plot gives a closer look at the ratio of tobacco exposure by education level and gender in Louisiana. High school male has the highest frequency of youth who had smoked, while middle school female has a lower frequency. We can also notice that there is more sample in middle school than high school and in female than male.
 
 -   Tobacco Addiction
 
 ```{r}
-# frequent smoker percentage
+# data pre-processing
 frequent_mosaic <- data2017 |>
   filter(region == "louisiana" & Topic == "Cigarette Use (Youth)" & Res == "Frequent" & Gender != "Overall")|>
   mutate(Frequent_Smoker = ifelse(Res == "Frequent", "Yes", Res)) |>
   select(Gender, Edu, Frequent_Smoker, value, Sample) |>
   mutate(Frequency = round(0.01 * value * Sample))
-
 not_frequent_mosaic <- frequent_mosaic |>
   mutate(Frequent_Smoker = "No",
          Frequency = Sample - Frequency)
-
 frequent_mosaic_full <- bind_rows(frequent_mosaic, not_frequent_mosaic) |>
   select(-value, -Sample) |>
   rename(Education_Level = Edu)
-
+# redefined variable order
 frequent_mosaic_full$Education_Level <- factor(frequent_mosaic_full$Education_Level, levels = c("Middle School", "High School"))
-
 frequent_mosaic_full$Frequent_Smoker <- factor(frequent_mosaic_full$Frequent_Smoker, levels = c("No", "Yes"))
-
 frequent_mosaic_cases <-tidyr::uncount(base::as.data.frame(frequent_mosaic_full), Frequency)
-
+# mosaic plot
 vcd::mosaic(Frequent_Smoker ~ Education_Level + Gender, 
             data = frequent_mosaic_cases, 
             direction = c("v","v","h"),
@@ -410,3 +420,4 @@ vcd::mosaic(Frequent_Smoker ~ Education_Level + Gender,
             highlighting_fill = c("lightyellow", '#FFA07A'), 
             gp_labels=(gpar(fontsize=9)))
 ```
+The ratio of frequent smoker is very low for both genders in both education level, even if Louisiana has highest percentage of frequent smoker. Tobacco addiction is more prevalent among males during both middle school and high school.
