@@ -1,1 +1,11 @@
 # Conclusion
+
+### Research Summary
+
+Youth tobacco exposure and addiction rates significantly decreased from 1999 to 2017. Geographical disparities in these rates were observed among the states in 2017. Both gender and education level demonstrated substantial effects on youth tobacco exposure and addiction rates. Male students consistently exhibited higher rates of youth tobacco exposure and addiction over the past two decades and across all states in 2017. Similarly, high school students consistently maintained markedly higher tobacco exposure and addiction rates than their middle school counterparts over the same periods. However, it becomes evident that education level exerts a stronger impact on youth tobacco exposure and addiction rates.
+
+For policymakers aiming to further reduce youth tobacco usage, a critical strategy involves enhancing anti-tobacco education during and after students transition from middle school to high school. This is especially crucial as we observe a substantial increase in youth tobacco usage during this transition period.
+
+### Limitations 
+
+Our study faces two primary limitations: insufficient data availability across different states and a restricted dimensionality of the dataset. The absence of data from several states impedes our ability to conduct a comprehensive comparative analysis. To bolster the robustness of future research, it is crucial to increase the number of observations across diverse years and states. Researchers should also consider incorporating additional factors that could potentially influence youth tobacco consumption. Factors like students' academic performance, not accounted for in our current dataset, might contribute to understanding youth tobacco exposure and addiction rates. Addressing these limitations provides opportunities for exploration and improvement in subsequent research efforts.
