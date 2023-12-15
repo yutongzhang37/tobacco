@@ -1,6 +1,6 @@
 # Data
 
-### Technical description
+## Technical description
 
 The only dataset used for this project is the Youth Tobacco Survey (YTS) Data, provided by the Office on Smoking and Health within the National Center for Chronic Disease Prevention and Health Promotion at the Centers for Disease Control and Prevention (CDC). The dataset can be directly accessed online at [Youth Tobacco Survey (YTS) Data](https://data.cdc.gov/Survey-Data/Youth-Tobacco-Survey-YTS-Data/4juz-x2tp).
 
@@ -10,7 +10,7 @@ YTS dataset is provided in a tabular format in CSV or Excel format and can be di
 
 We also identified some potential issues with the data. First, there are some columns (TopicId, MeasuredId, StratificationID...) generated from the sampling process, which are irrelevant to the tobacco usage and cessation. Thus, these columns will be excluded in the analysis. Secondly, the dataset both gives the sample size of the youth who share the same smoking status under a given condition and the percentage of it among the total population. Considering the substantial variability in sample sizes based on different populations in schools and states, our emphasis will be on percentage values rather than sample size. Thirdly, in the gender column, the responses are female, male, and overall. Sample size of female and male do not exactly add up to the overall sample size, as other gender types are included. However,only binary genders (female and male) will be considered for comparisons, given the small sample sizes for non-binary genders. Additionally, due to missing data for certain states in specific years, temporal analysis may need to be conducted state-wise
 
-### **Research plan**
+## **Research plan**
 
 In this section, we will first provide a brief introduction to our dependent and independent variables. We will then discuss the target values of interest that our data enables us to explore, followed by an examination of patterns that can be explored using demographic independent variables.
 
@@ -30,9 +30,9 @@ While using smoking status-related dependent variables to explore tobacco exposu
 
 3.  Examine the influence of gender and education on tobacco exposure and addiction rates within a specific state and year."
 
-### Missing Value Analysis
+## Missing Value Analysis
 
-```{r}
+```{r, message=FALSE}
 # import dataset
 library(readr)
 data <- read_csv("https://raw.githubusercontent.com/yutongzhang37/tobacco/main/Data/Youth_Tobacco_Survey__YTS__Data.csv")
