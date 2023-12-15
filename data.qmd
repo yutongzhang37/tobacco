@@ -2,7 +2,7 @@
 
 ### Technical description
 
-The only dataset used for this project is the Youth Tobacco Survey (YTS) Data, provided by the Office on Smoking and Health within the National Center for Chronic Disease Prevention and Health Promotion at the Centers for Disease Control and Prevention (CDC). The dataset can be directly accessed online at https://data.cdc.gov/Survey-Data/Youth-Tobacco-Survey-YTS-Data/4juz-x2tp.
+The only dataset used for this project is the Youth Tobacco Survey (YTS) Data, provided by the Office on Smoking and Health within the National Center for Chronic Disease Prevention and Health Promotion at the Centers for Disease Control and Prevention (CDC). The dataset can be directly accessed online at [Youth Tobacco Survey (YTS) Data](https://data.cdc.gov/Survey-Data/Youth-Tobacco-Survey-YTS-Data/4juz-x2tp).
 
 The YTS Data is derived from the web-based National Youth Tobacco Survey (NYTS), administered annually by CDC. The survey covers various aspects, including tobacco use, exposure to environmental tobacco smoke, smoking cessation, school curriculum, minors' access to tobacco products, knowledge and attitudes about tobacco, and exposure to pro-tobacco and anti-tobacco media messages. A two-stage cluster sample design was employed to produce representative samples of students in middle schools (grades 6--8) and high schools (grades 9--12). The first stage involves selecting schools with probability proportional to their enrollment size, while the second stage randomly selects classes from the selected schools. All students in the chosen classes are eligible to participate in the survey, and a minimum overall response rate of 60% is required. NYTS has been conducted since 1999, and the YTS Data synthesizes the results from 1999 to 2017.
 
