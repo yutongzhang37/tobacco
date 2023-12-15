@@ -77,6 +77,8 @@ To address this question, we will initially examine the overall trends in youth 
 
     -   **Tobacco Exposure**
 
+        To assess trends in youth tobacco exposure rates, we analyzed the reported percentage of students who had smoked before each year. The accompanying boxplots demonstrate a clear **decreasing** trend in the percentage of youth tobacco exposure from 1999 to 2017. The median declined from approximately 50% in 1999 to below 20% in 2017, with consistently stable variance in data each year. The similar size of the boxplots across years suggests a consistent number of observations annually.
+
     ```{r}
     # Filter dataset 
     data1 <- data_bf %>% filter( Topic == "Cigarette Use (Youth)" & Gender == "Overall" & Res == "Ever")
@@ -93,7 +95,8 @@ To address this question, we will initially examine the overall trends in youth 
       xlab("Year")
     ```
 
-    -   **Tobacco Addiction**
+    -   **Tobacco Addiction**\
+        Similarly, to examine changes in the percentage of youth addicted to tobacco from 1999 to 2017, we focused on the reported percentage of students who smoked more than 20 days out of 30 before the survey. The accompanying boxplot indicates a **decreasing trend** in the percentage of youth tobacco addiction during this period. While the median of the youth tobacco addiction rate decreased from around 5% to approximately 1% from 1999 to 2017, the upper quartile decreased from roughly 15% to 5%. This observation suggests **significant improvements** have been noted **in areas with historically high youth tobacco addiction rates** over the past two decades.
 
 ```{r}
 # filter data
@@ -113,7 +116,11 @@ ggplot(data_y2, aes(YEAR, Value)) +
 
 -   **Variation of Trends in Genders**
 
+    We are also interested in the evolution of youth tobacco exposure rate and addiction rate when considering gender.
+
     -   **Tobacco Exposure**
+
+        We now grouped the data by year and gender to observe the reported tobacco exposure rates for different genders in different years. The graph below illustrates a clear decreasing trend for both female and male youth tobacco exposure rates from 1999 to 2017, confirming our earlier findings. Furthermore, the smooth line indicates a consistent gap between male and female youth tobacco exposure rates across years, suggesting that the **male population consistently has relatively higher youth tobacco exposure rates**.
 
     ```{r,fig.height = 5, fig.width = 8, message=FALSE}
     # filter data
@@ -130,6 +137,8 @@ ggplot(data_y2, aes(YEAR, Value)) +
 
     -   **Tobacco Addiction**
 
+        As in our previous analysis, we grouped the data by year and gender. The graph shows a decreasing trend in youth tobacco addiction rates for both genders across the years, consistent with our earlier findings. Notably, a consistent gap is observed between male and female tobacco addiction rates across all years, with the **male population consistently exhibiting higher rates**.
+
     ```{r,fig.height = 5, fig.width = 8, message=FALSE}
     data_gf <- data_bf %>% filter( Topic == "Cigarette Use (Youth)" & Gender != "Overall" & Res == "Frequent")
 
@@ -143,11 +152,13 @@ ggplot(data_y2, aes(YEAR, Value)) +
 
     ```
 
-<!-- -->
-
 -   **Variation of Trends by Education Level**
 
+    In this section, we will examine youth tobacco exposure and addiction rates separately for middle school and high school across different years.
+
     -   **Tobacco Exposure**
+
+        While both middle school and high school youth tobacco exposure rates exhibit clear decreasing trends in the graph, **high school students consistently demonstrate significantly higher tobacco exposure rates.** The median high school tobacco exposure rate decreased from 70% to approximately 25% between 1999 and 2017, whereas the median middle school tobacco exposure rate decreased from around 45% to 10% during the same period. Throughout all years, high school students consistently maintain much higher median tobacco exposure rates. Additionally, the boxplots share a similar size, indicating a comparable number of observations in each year and education level.
 
     ```{r, fig.height = 5, fig.width = 8}
     data_y1 <- data1
@@ -162,6 +173,8 @@ ggplot(data_y2, aes(YEAR, Value)) +
 
     -   **Tobacco Addiction**
 
+        In exploring youth tobacco addiction rates, we observed decreasing trends in both education levels. High school students exhibited a median tobacco addiction rate of around 16% in 1999, which decreased to approximately 2.5% in 2017. In contrast, middle school displayed significantly lower youth tobacco addiction rates over the years, declining from around 4% to almost 0% during the same period. It is evident that **high school consistently maintains much higher tobacco addiction rates than middle school across all years**.
+
     ```{r, fig.height = 5, fig.width = 8}
     data_y2 <- data2
     data_y2$YEAR <- factor(data_y2$YEAR)
@@ -175,9 +188,11 @@ ggplot(data_y2, aes(YEAR, Value)) +
 
 -   **Considering Both Genders and Education Levels**
 
-    To control for gender and education, we group the dataset by education levels and gender, calculating the mean and standard deviation of the observed percentage of youth tobacco exposure and addiction rates.
+    Building upon our previous analysis, it became evident that both gender and education level influence youth tobacco exposure and addiction rates. In an effort to gain a deeper understanding of the patterns across years, we have introduced controls for both gender and education. The dataset was segmented based on education levels and gender, allowing us to calculate the mean and standard deviation of the observed percentages of youth tobacco exposure and addiction rates.
 
     -   **Tobacco Exposure**
+
+        Faceting on years, we observe a clear declining trend in youth tobacco exposure from 1999 to 2017, confirming our previous findings. Additionally, a notable distinction emerges between middle school and high school average tobacco exposure rates, with middle school rates consistently around half of those in high school across all years. While gender differences in tobacco exposure rates are relatively minor, the graph indicates that males consistently exhibit higher youth tobacco exposure rates when controlling for year and educational levels.
 
     ```{r,fig.height = 10, fig.width = 10, message=FALSE}
     data_avegee <- data_ge %>% group_by(YEAR,Edu, Gender) %>% summarise(ave_p = mean(Value), std = sd(Value))
@@ -197,6 +212,8 @@ ggplot(data_y2, aes(YEAR, Value)) +
 
     -   **Tobacco Addiction**
 
+        Youth tobacco addiction rates also exhibit a distinct decreasing pattern across years, controlling for gender and education level. The disparity between middle school and high school addiction rates is striking, with the middle school average consistently remaining below 5% (from around 5% to almost 0%), while high school tobacco addiction rates dropped from around 17% to 2.5% from 1999 to 2017. Additionally, gender differences in tobacco addiction are noticeable in both middle school and high school across the years. However, compared to education level differences, gender differences are less prominent in tobacco addiction rates.
+
     ```{r,fig.height = 10, fig.width = 10, message = FALSE}
     data_avegef <- data_gf %>% group_by(YEAR,Edu, Gender) %>% summarise(ave_p = mean(Value), std = sd(Value))
     ggplot(data_avegef, aes(x = Edu, y = ave_p, fill= Gender))+
@@ -211,6 +228,16 @@ ggplot(data_y2, aes(YEAR, Value)) +
       ylab("Percentage")+
       ggtitle("Youth Tobacco Addiction By Education Levels and Gender From 1999 to 2017")
     ```
+
+-   **Summary**
+
+    -   Youth tobacco exposure and addiction rates both exhibited a significant decrease from 1999 to 2017.
+
+    -   Male youth tobacco exposure and addiction rate is **consistently higher** than female youth tobacco exposure and addiction rates across all years
+
+    -   High school students **consistently maintained markedly higher tobacco exposure and addiction rates** than middle school students over the past two decades, although as high school rates experienced a notable decline.
+
+    -   Controlling for both gender and education level, education level exerts a stronger impact on youth tobacco exposure and addiction rates than gender.
 
 ### How does youth tobacco exposure and addiction differ by states in 2017?
 
